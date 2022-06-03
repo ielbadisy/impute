@@ -3,7 +3,7 @@
 
 # impute
 
-NOTE : Le package est toujours en stade précoce de développement!
+NOTE : This package is still in the early stage of development!
 
 This is an R package that wrapps the most popular algorithms for data
 imputation. Its objective is to allow the evaluation of these methods in
@@ -19,7 +19,7 @@ irisNA <- impute::generate_na(iris)
 irisNAx <- impute::impute(irisNA, "knn") # impute(<incomplete_dataset>, "<imputation_method>")
 ```
 
-Acctuallement, seullement les méthodes sont implémentées :
+Currently, only the methods bellow are implemented :
 
 -   `naive`: mean/mode  
 -   `hotdeck`
