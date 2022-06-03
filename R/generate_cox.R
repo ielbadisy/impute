@@ -17,7 +17,7 @@
 
 library(survival)
 
-generate_cox <- function(n = 1000, beta = 0.6, lambdaT = 0.002, lambdaC = 0.004) {
+generate_cox <- function(n = 1000, beta = rep(0.5, 5), lambdaT = 0.002, lambdaC = 0.004) {
   pacman::p_load(mice, survival)
   # covariates
   rho <- 0.3
@@ -28,7 +28,7 @@ generate_cox <- function(n = 1000, beta = 0.6, lambdaT = 0.002, lambdaC = 0.004)
   x5 = sample(c(1, 2, 3), n, replace= TRUE, prob = c(1/3, 1/3, 1/3)) # ordinal variale ????!!!!
   
   # true event time
-  T = rweibull(n, shape=1, scale=lambdaT*exp(beta*x1 + beta*x2 + beta*x3 + beta*x4 + beta*x5))
+  T = rweibull(n, shape=1, scale=lambdaT*exp(beta[1]*x1 + beta[2]*x2 + beta[3]*x3 + beta[4]*x4 + beta[5]*x5))
   C = rweibull(n, shape=1, scale=lambdaC)
   
   # censoring time

@@ -23,10 +23,9 @@ This is an R package that wrapps the most popular algorithms for data imputation
 
 ```{r, eval=FALSE}
 #devtools::install_github("ielbadisy/impute")
-# generate_na
-
-irisNA <- impute::generate_na(iris)
-irisNAx <- impute::impute(irisNA, "knn") # impute(<incomplete_dataset>, "<imputation_method>")
+library(impute)
+irisNA <- generate_na(iris)
+irisNAx <- impute(irisNA, "knn") # impute(<incomplete_dataset>, "<imputation_method>"), see bellow the available options
 ```
 
 Currently, only the methods bellow are implemented :
