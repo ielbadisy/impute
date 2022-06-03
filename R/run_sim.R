@@ -1,0 +1,10 @@
+# run_sim : run a simulation 
+
+# rbloggers : https://www.r-bloggers.com/2019/08/simulation-studies-in-r-with-the-parsim-package/
+
+
+# see a simple yet efficient tutorial : https://rpubs.com/mirschn/simulationstudy
+
+# https://mail-attachment.googleusercontent.com/attachment/u/0/?ui=2&ik=3fa77bdb8c&attid=0.1&permmsgid=msg-f:1733356791400664556&th=180e1ed16c728dec&view=att&disp=inline&ser=1&sadnir=2&saddbat=ANGjdJ9bNZxfng28zSijIZguCuwZGEoi6lhtnUOibAp05GjyWgzaubM2L3_8GmLewYs8wClfCd4j7Qz0q8NW6EmXedygcTtYngYP-qwCzs3ANSesWheKF2kiC0bucqYz-WV-p-mYwgBjqklI9HbpNFpB91Shx6HwJHIfvTgtadAXiRL22QUJGZoakkGhWNjrjohRqkRX-CvO0yrWyEJRGQIMIQs94VpWCcRJUh_l-n_mwWU-rAMdoqf3b_5loMIiLhuoWfc9hihJjxOuRxvW2ynB7gklHBL6gEICVBqEEwqN6FPAnVW7JyrY8F4B2NOxwChIk4_e1XDDJ-_gKMTZRaFLpBeeyjki-OViRme_luRoHHC8aQNXj4IEjliqmLU58WQgoOb052n3j7vhA1Uon_r2uBO1Uh7MkmRWx45Bd7_AVhjTjQTX3sGE3P3S9z4Ne128f4kYN0r2sNgyd_LQjmVVrpNoUhp9aMaNiMP_nKoP2aZyE85r20QEHQErEdMXsnRdDaxstKlFz7n62QtI0--Pp9uRhcVOED5ZkmWh4JFnBP59T8dn8QwAiqCW4dmY59lzgnEcewnfbtkHZWBuNX88hCopwMnmiHWgT5o67q_AvUkW-EnF47velxaZsW2Tx9cpLL87UgvkjIc1HpY9DcsdtVs0V8aNORIqX3IipU2ddmujChP_vqS_ION0IAWNaLGStOYprxx4WHGJ8sDQwfQbiYf644f4VHkReHL7MnvO7gb7IXW9p69wR94Zoqw
+
+# https://stirlingcodingclub.github.io/simulating_data/index.html#mvtnorm
