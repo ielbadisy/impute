@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# impute
+# imputer
 
 
 NOTE : This package is still in the early stage of development! 

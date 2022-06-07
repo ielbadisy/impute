@@ -2,14 +2,13 @@
 # look at when they get started
 
 #' @title Missing data imputation methods
-#' @name impute
+#' @name imputer
 #' 
-#' @description 
+#' @description A consistent wrapper for a set of imputation algorithms 
 #' 
 #' @docType package
 #' 
-#' @importFrom tensorflow tf
-#' @importFrom greta .internals
+#' @import
 #' 
 #' @examples
 #' 

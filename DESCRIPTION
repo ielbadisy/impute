@@ -1,4 +1,4 @@
-Package: impute
+Package: imputer
 Title: Missing imputation methods
 Version: 0.0.0.1
 Authors@R: 
@@ -11,16 +11,16 @@ Description: Implementations of statistical and machine learning based algorithm
 License: CC0
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/your_username/your_repository
-BugReports: https://github.com/your_username/your_repository/issues
+URL: https://github.com/ielbadisy/imputer
+BugReports: https://github.com/ielbadisy/imputer/issues
 Suggests: 
     testthat (>= 2.1.0),
     covr,
     spelling
 Imports: 
-    tensorflow (>= 1.13.0)
+    survival
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Depends: 
-    greta (>= 0.3.0)
+   survival
 Language: en-GB

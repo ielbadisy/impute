@@ -12,10 +12,9 @@
 ##' @param x covariate
 ##' @return data.frame with time (survival time), event(0 = censored), predictors (x_i)
 ##'         T (survival time), event (0: censored),
-##'         
+##' @export 
 ##' @references N.J. Horton and Ken K.Keinman, Using R and RStudio for Data Management and Statistical Analysis and Graphics, second edition, 2015
 
-library(survival)
 
 generate_cox <- function(n = 1000, beta = rep(0.5, 5), lambdaT = 0.002, lambdaC = 0.004) {
   pacman::p_load(mice, survival)

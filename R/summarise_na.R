@@ -1,4 +1,13 @@
-#----------- summarise_na() : summarise NA by cases and variables (wrapper for naniar::miss_var_summary & naniar::miss_case_summary)
+
+#' Title
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' #----------- summarise_na() : summarise NA by cases and variables (wrapper for naniar::miss_var_summary & naniar::miss_case_summary)
 
 summarise_na <- function(data) {
   

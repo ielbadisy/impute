@@ -1,10 +1,36 @@
-#  ampute3() : introduce a proportion of NA under a certain mechanism of missingness
-# could be largely simplified after reviewing code source of : https://cran.r-project.org/web/packages/missMethods/vignettes/Generating-missing-values.html
-# see a nice tutorial here : https://rianneschouten.github.io/mice_ampute/vignette/ampute.html
-# test wheither the generation is correct :https://search.r-project.org/CRAN/refmans/naniar/html/mcar_test.html
-# or here : https://naniar.njtierney.com/reference/mcar_test.html
-# or here : https://naniar.njtierney.com/reference/mcar_test.html
-#*************************************** code from : https://rmisstastic.netlify.app/how-to/generate/misssimul
+#' generate missing data on complete or incomplete data under MAR, MCAR and MNAR mechanisms and patterns
+#' 
+#' @param data [data.frame, matrix] a complet of incomplete data frame of matrix. 
+#' @param mechanism [string] could be "MCAR", "MAR" or "MNAR". Default is "MCAR". 
+#' @param self.mask [string] either NULL or one of "sym", "upper", "lower"; default is NULL
+#' @param perc.missing [positive double] proportion of missing values, between 0 and 1. Default is 0.5.
+#' @param idx.incomplete [array] indices of variables to generate missing values in. If NULL then missing values in all variables are possible. Default is NULL.
+#' @param idx.covariates [matrix] binary matrix such that entries in row i that are equal to 1 indicate covariates that incluence missingness of variable i (sum(idx.incomplete) x p). If NULL all covariates contribute. Default is NULL.
+#' @param weights.covariates [matrix] matrix of same size as idx.covariates with weights in row i for contribution of each covariate to missingness model of variable i. If NULL then a (regularized) logistic model is fitted. Default is NULL.
+#' @param by.patterns [boolean] generate missing values according to (pre-specified) patterns. Default is FALSE.
+#' @param patterns [matrix] binary matrix with 1=observed, 0=missing (n_pattern x p). Default is NULL.
+#' @param freq.patterns [array] array of size n_pattern containing desired proportion of each pattern. if NULL then mice::ampute.default.freq will be called. Default is NULL.
+#' @param weights.patterns [matrix] weights used to calculate weighted sum scores (n_pattern x p). If NULL then mice::ampute.default.weights will be called. Default is NULL.
+#' @param use.all [boolean] use all observations, including incomplete observations, for amputation when amputing by patterns (only relevant if initial data is incomplete and by.pattern=T). Default is FALSE.
+#' @param logit.model [string] either one of "RIGHT","LEFT","MID","TAIL". Default is "RIGHT".
+#' @param seed [natural integer] seed for random numbers generator. Default is 1234.
+#' 
+#' @return A list with the following elements
+#' \item{data.init}{original data.frame}
+#' \item{data.incomp}{data.frame with the newly generated missing values, observed values correspond to the values from the initial data.frame}
+#' \item{idx_newNA}{a boolean data.frame indicating the indices of the newly generated missing values}
+#'
+#' @references 
+#' Schouten, R.M., Lugtig, P and Vink, G. (2018) \href{https://www.tandfonline.com/doi/full/10.1080/00949655.2018.1491577}{Generating missing values for simulation purposes: A multivariate amputation procedure.}. \emph{Journal of Statistical Computation and Simulation}, 88(15): 1909-1930.
+#' Teresa Alves de Sousa et Imke Mayer (2021) \href{https://rmisstastic.netlify.app/how-to/generate/misssimul#311_MCAR}{How to generate missing values?}
+#' @example 
+#' # introduce ~ 30% of NA under MCAR to the iris data set using the default settings
+#' irisMCAR <- ampute3(iris, mechanism = "MCAR", perc.missing = 0.3)
+#' irisMCAR
+#' @import mice mltools gdata LiblineaR glmnet dplyr
+#' @export 
+
+
 ampute3 <- function(data, 
                        mechanism = "MCAR", #c("MCAR", "MAR", "MNAR"),
                        perc.missing = 0.2, 
@@ -17,8 +43,9 @@ ampute3 <- function(data,
                        freq.patterns = NULL,
                        weights.patterns = NULL,
                        use.all = FALSE, 
-                       logit.model = "RIGHT",#c("RIGHT","LEFT","MID","TAIL")
-                       seed = NULL) 
+                       logit.model = "RIGHT",#c("RIGHT","LEFT","MID","TAIL"),
+                       seed = 1234
+                       ) 
 {
   
   if (!is.null(seed)){
