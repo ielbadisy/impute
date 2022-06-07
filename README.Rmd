@@ -22,7 +22,7 @@ This is an R package that wrapps the most popular algorithms for data imputation
 # Install instruction
 
 ```{r, eval=FALSE}
-#devtools::install_github("ielbadisy/impute")
+#devtools::install_github("ielbadisy/imputer")
 library(imputer)
 irisNA <- generate_na(iris)
 irisNAx <- imputer(irisNA, "knn") # impute(<incomplete_dataset>, "<imputation_method>"), see bellow the available options
