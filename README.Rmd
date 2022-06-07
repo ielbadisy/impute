@@ -12,33 +12,40 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
 # imputer
 
+<!-- badges: start -->
+<!-- badges: end -->
 
-NOTE : This package is still in the early stage of development! 
+The goal of imputer is to give a consistant yet direct way to impute/ampute a data set regaring many algorihms (see ?imputer::imputer).
 
-This is an R package that wrapps the most popular algorithms for data imputation. Its objective is to allow the evaluation of these methods in terms of bias (robustness) and prediction (accuracy). 
 
-# Install instruction
+## Installation
 
-```{r, eval=FALSE}
-#devtools::install_github("ielbadisy/imputer")
-library(imputer)
-irisNA <- generate_na(iris)
-irisNAx <- imputer(irisNA, "knn") # impute(<incomplete_dataset>, "<imputation_method>"), see bellow the available options
+You can install the development version of imputer from [GitHub](https://github.com/ielbadisy/imputer) with:
+
+``` r
+#install.packages("devtools")
+devtools::install_github("ielbadisy/imputer")
 ```
 
-Currently, only the methods bellow are implemented :
+## Example
 
-   * `naive`: mean/mode   
-   * `hotdeck`
-   * `knn` 
-   * `cart`
-   * `glmnet`
-   * `missranger`
-   * `missforest`
-   * `spmm`
-   * `famd`
-   * `mpmm`
-   * `micerf`
-   * `supermice`
+This is a basic example which shows you how to solve a common problem:
+
+**ampute**
+```{r}
+library(imputer)
+## basic example code
+
+irisNA <- generate_na(iris)
+head(irisNA)
+```
+
+and **impute**
+```{r}
+iriscomp <- imputer(irisNA, "knn")
+head(iriscomp)
+```
+

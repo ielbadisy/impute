@@ -4,7 +4,7 @@
 #' @description 
 #' @usage imputer(dataNA, "method")
 #' @param data A data frame or matrix containing missing values
-#' @param method One of the ? imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "glmnet", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "supermice".
+#' @param method Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "glmnet", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "supermice".
 #'
 #' @return A single complete data set imputed with the chosen method.
 #' @details 

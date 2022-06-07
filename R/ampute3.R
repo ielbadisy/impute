@@ -27,7 +27,7 @@
 #' # introduce ~ 30% of NA under MCAR to the iris data set using the default settings
 #' irisMCAR <- ampute3(iris, mechanism = "MCAR", perc.missing = 0.3)
 #' irisMCAR
-#' @import mice mltools gdata LiblineaR glmnet dplyr
+#' @import mice mltools LiblineaR glmnet dplyr
 #' @export 
 
 
