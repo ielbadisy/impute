@@ -314,10 +314,8 @@ ampute3 <- function(data,
       
       
       
-      return(list("data.init" = data,
-                  "data.incomp" = data.incomp,
-                  "idx_newNA" = idx_newNA)) 
-      
+      #return(list("data.init" = data, "data.incomp" = data.incomp, "idx_newNA" = idx_newNA)) 
+      return(data.incomp)
       
     } else{ #by.patterns==FALSE
       
@@ -372,10 +370,8 @@ ampute3 <- function(data,
             gdata::mapLevels(x=tmp$data.incomp[,vars_factor[[i]]]) <- levels_factor[[i]]
           }
         }
-        return(list("data.init" = tmp$data.init,
-                    "data.incomp" = tmp$data.incomp,
-                    "idx_newNA" = tmp$idx_newNA))
-        
+        #return(list("data.init" = tmp$data.init", data.incomp" = tmp$data.incomp, "idx_newNA" = tmp$idx_newNA))
+        return(data.incomp)
       }
     } 
     
@@ -421,9 +417,8 @@ produce_MCAR <- function(data, perc.missing, idx.incomplete){
   data.incomp[idx_newNA] <- NA
   
   
-  return(list("data.init" = data,
-              "data.incomp" = data.incomp,
-              "idx_newNA" = idx_newNA))
+  #return(list("data.init" = data,"data.incomp" = data.incomp,"idx_newNA" = idx_newNA))
+  return(data.incomp)
 }
 
 
@@ -486,9 +481,8 @@ produce_MAR_MNAR <- function(data, mechanism, perc.missing, self.mask, idx.incom
     data.incomp[idx_newNA] <- NA
     data.incomp[is.na(data)] <- NA #re-storing original missing data
     
-    return(list("data.init" = data,
-                "data.incomp" = data.incomp,
-                "idx_newNA" = idx_newNA))
+    #return(list("data.init" = data,"data.incomp" = data.incomp, "idx_newNA" = idx_newNA))
+    return(data.incomp)
   }
   
   data.orig <- data
@@ -722,9 +716,8 @@ produce_MAR_MNAR <- function(data, mechanism, perc.missing, self.mask, idx.incom
   
   
   
-  return(list("data.init" = data,
-              "data.incomp" = data.incomp,
-              "idx_newNA" = idx_newNA))
+  #return(list("data.init" = data, "data.incomp" = data.incomp, "idx_newNA" = idx_newNA))
+  return(data.incomp)
 }
 
 
