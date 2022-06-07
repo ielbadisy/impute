@@ -7,9 +7,6 @@
 #' @description A consistent wrapper for a set of imputation algorithms 
 #' 
 #' @docType package
-#' 
-#' @import
-#' 
 #' @examples
 #' 
 #' # add a simple example here to introduce the package!

@@ -8,7 +8,8 @@
 #' @export
 #'
 #' @examples
-eval_coxest <- function(estimate, true_val, metric = "bias") {
+
+evaluate_coxest <- function(estimate, true_val, metric = "bias") {
   # https://github.com/torockel/missMethods/blob/master/R/utils-evaluation.R
   
   stopifnot(metric %in% c(

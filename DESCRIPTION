@@ -18,9 +18,15 @@ Suggests:
     covr,
     spelling
 Imports: 
-    survival
+    survival,
+    dplyr,
+    gdata,
+    glmnet,
+    mice,
+    mltools,
+    LiblineaR
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
 Depends: 
    survival
 Language: en-GB
