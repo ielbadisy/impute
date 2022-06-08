@@ -27,6 +27,5 @@ A consistent wrapper for a set of imputation algorithms
 
 }
 \references{
-Add references here !!!
-}
+evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3))
 }

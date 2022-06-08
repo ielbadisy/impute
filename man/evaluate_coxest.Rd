@@ -4,18 +4,21 @@
 \alias{evaluate_coxest}
 \title{Title}
 \usage{
-evaluate_coxest(estimate, true_val, metric = "bias")
+evaluate_coxest(estimate, truelogHR, metric = "bias", model = "naive")
 }
 \arguments{
 \item{estimate}{}
 
-\item{true_val}{}
+\item{truelogHR}{}
 
 \item{metric}{}
 }
 \value{
-
+data frame containing results
 }
 \description{
 Title
+}
+\examples{
+evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
 }

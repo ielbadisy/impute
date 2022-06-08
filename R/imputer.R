@@ -27,9 +27,9 @@
 #' \code{"supermice"}  \tab SuplerLearner ensemble method based combined with {mice} approach
 
 
-#' @references 
-#' Add references here !!!
-#' }
+#' @references
+#' evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
+#' 
 #' @export
 #' @examples
 imputer <- function(data, method = "naive") {
