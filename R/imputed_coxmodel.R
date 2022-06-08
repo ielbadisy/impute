@@ -26,8 +26,6 @@ imputed_coxmodel <- function(impcox, myformula, method = NULL, scenario = NULL, 
   
   out$CI_coverage <- truelogHR >= out$lo95 & truelogHR <= out$hi95
   
-  out$cover <- kLogHR >= out$lo95 & kLogHR <= out$hi95
-  
   return(out)
   
 }
