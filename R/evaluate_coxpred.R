@@ -1,9 +1,9 @@
 #' Title
 #'
-#' @param data 
-#' @param R 
-#' @param seed 
-#' @param model 
+#' @param data generate with the substantive cox model either complete or imputed 
+#' @param R number of replcations 
+#' @param seed radnom number generation 
+#' @param model name of the of the evaluated model (or scenario)
 #' @param ... 
 #'
 #' @return
