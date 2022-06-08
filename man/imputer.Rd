@@ -29,4 +29,4 @@ A consistent wrapper for a set of imputation algorithms
 \references{
 Add references here !!!
 }
-
+}

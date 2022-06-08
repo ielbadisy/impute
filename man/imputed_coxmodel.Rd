@@ -9,7 +9,7 @@ imputed_coxmodel(
   myformula,
   method = NULL,
   scenario = NULL,
-  true_val = logBeta
+  truelogHR = logBeta
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ imputed_coxmodel(
 
 \item{scenario}{}
 
-\item{true_val}{}
+\item{truelogHR}{}
 }
 \value{
 
