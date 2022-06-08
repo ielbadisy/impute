@@ -5,13 +5,13 @@
 #' @param myformula 
 #' @param method 
 #' @param scenario 
-#' @param true_val 
+#' @param truelogHR 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-imputed_coxmodel <- function(impcox, myformula, method = NULL, scenario = NULL, true_val = logBeta){
+imputed_coxmodel <- function(impcox, myformula, method = NULL, scenario = NULL, truelogHR = logBeta){
   # Full data analysis
   mod <- summary(survival::coxph(myformula, data = impcox))
   coefs <- as.data.frame(mod$coef)
@@ -24,12 +24,16 @@ imputed_coxmodel <- function(impcox, myformula, method = NULL, scenario = NULL, 
   out$method <- rep(method, nrow(out))
   out$scenario <-rep(scenario, nrow(out))
   
-  out$CI_coverage <- true_val >= out$lo95 & true_val <= out$hi95
+  out$CI_coverage <- truelogHR >= out$lo95 & truelogHR <= out$hi95
+  
+  out$cover <- kLogHR >= out$lo95 & kLogHR <= out$hi95
   
   return(out)
   
 }
 
 # example
-# #logBeta <- d$est
-#imputed_coxmodel(dat, myformula, method = "y", scenario = "x")
+#dat <- generate_cox(1000)
+#d <- full_coxmodel(dat, myformula)
+#logBeta <- d$est
+#imputed_coxmodel(dat, myformula, method = "y", scenario = "x", truelogHR = logBeta)
