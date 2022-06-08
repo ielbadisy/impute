@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-evaluate_coxpred <- function(data, R = 5, seed = 1234, model = 'fullcox', ...) {
+evaluate_coxpred <- function(data, R = 5, seed = 1234, method = 'fullcox', ...) {
   
   #pacman::p_load(survival, SurvMetrics, survival, pec, ipred)
   

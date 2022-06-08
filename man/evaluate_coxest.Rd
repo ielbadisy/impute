@@ -4,7 +4,7 @@
 \alias{evaluate_coxest}
 \title{Title}
 \usage{
-evaluate_coxest(estimate, truelogHR, method = "naive")
+evaluate_coxest(estimate, truelogHR, method = "naive", scenario = "MAR-10")
 }
 \arguments{
 \item{estimate}{}

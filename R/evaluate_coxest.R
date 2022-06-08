@@ -2,7 +2,8 @@
 #'
 #' @param estimate 
 #' @param truelogHR 
-#' @param evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
+#' @param method 
+#' @param scenario
 #' @return data frame containing results 
 #' @export
 #'
@@ -10,7 +11,7 @@
 #' evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
 
 
-evaluate_coxest <- function(estimate, truelogHR,  method = "naive") {
+evaluate_coxest <- function(estimate, truelogHR,  method = "naive", scenario = "MAR-10") {
   # https://github.com/torockel/missMethods/blob/master/R/utils-evaluation.R
   
   #stopifnot(metric %in% c("bias", "MCe", "RMSE", "sd_est", "bias_rel", "precision", "cor", "MAE", "MAE_rel", "nr_NA"))
@@ -32,6 +33,7 @@ evaluate_coxest <- function(estimate, truelogHR,  method = "naive") {
          return(est_metrics)
 
 }
+
 
 
 
