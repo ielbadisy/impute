@@ -4,7 +4,14 @@
 \alias{evaluate_coxpred}
 \title{Title}
 \usage{
-evaluate_coxpred(data, R = 5, seed = 1234, model = "fullcox", ...)
+evaluate_coxpred(
+  data,
+  R = 5,
+  seed = 1234,
+  method = "fullcox",
+  scenario = "MAR-10",
+  ...
+)
 }
 \arguments{
 \item{data}{generate with the substantive cox model either complete or imputed}
@@ -13,7 +20,9 @@ evaluate_coxpred(data, R = 5, seed = 1234, model = "fullcox", ...)
 
 \item{seed}{radnom number generation}
 
-\item{model}{name of the of the evaluated model (or scenario)}
+\item{method}{}
+
+\item{scenario}{}
 
 \item{...}{}
 }

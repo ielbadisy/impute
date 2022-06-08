@@ -3,20 +3,20 @@
 #' @param data generate with the substantive cox model either complete or imputed 
 #' @param R number of replcations 
 #' @param seed radnom number generation 
-#' @param model name of the of the evaluated model (or scenario)
+#' @param method 
+#' @param scenario 
 #' @param ... 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-evaluate_coxpred <- function(data, R = 5, seed = 1234, method = 'fullcox', ...) {
+evaluate_coxpred <- function(data, R = 5, seed = 1234, method = "fullcox", scenario = "MAR-10", ...) {
   
   #pacman::p_load(survival, SurvMetrics, survival, pec, ipred)
   
   set.seed(seed)
   N = nrow(data)
-  model = model
   dat = data
   
   #Initialization
@@ -69,7 +69,8 @@ evaluate_coxpred <- function(data, R = 5, seed = 1234, method = 'fullcox', ...) 
     #*******************list results
     pred_metrics = data.frame(metrics = c('IBS', 'Cindex', 'AUC', 'predError'),
                               values = c(IBS, Cindex, AUC, predError),
-                              model = rep(model, 4),
+                              method = rep(method, 4),
+                              scenario = rep(scenario, 4),
                               iter = 1:R)
   }
   

@@ -11,7 +11,7 @@ evaluate_coxest(estimate, truelogHR, method = "naive", scenario = "MAR-10")
 
 \item{truelogHR}{}
 
-\item{evaluate_coxest(c(5, }{5, 0.6), c(7, 0.6, 0.3))}
+\item{method}{}
 }
 \value{
 data frame containing results
