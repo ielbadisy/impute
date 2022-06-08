@@ -74,6 +74,6 @@ evaluate_coxpred <- function(data, R = 5, seed = 1234, method = "fullcox", scena
                               iter = 1:R)
   }
   
-  colnames(pred_metrics) <- c("metrics", "values", "model", "iter")
+  colnames(pred_metrics) <- c("metrics", "values", "method", "scenario", "iter")
   return(pred_metrics)
 }
