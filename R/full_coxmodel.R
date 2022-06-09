@@ -31,7 +31,7 @@ full_coxmodel <- function(fullcox, myformula, scenario = "baseline", method = "f
 
 
 # Example 
-#myformula <- as.formula(Surv(time, event) ~ x1 + x2 + x3 + x4 + x5)
 #dat <- generate_cox(1000)
+#myformula <- as.formula(Surv(time, event) ~ x1 + x2 + x3 + x4 + x5)
 #summary(survival::coxph(myformula, data = dat))
 #full_coxmodel(dat, myformula, scenario = "baseline", method = "fullcox")

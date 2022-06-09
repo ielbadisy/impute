@@ -83,13 +83,17 @@ imputer <- function(data, method = "naive") {
     
     return(impx)
   }
+  
   #-------------------------------------------------
+  
   if (method == "hotdeck") {
     
   impx <- simputation::impute_shd(dat, .~1, backend="VIM")
   return(impx)
   }
+  
   #-------------------------------------------------
+  
   if (method == "knn") {
    
   impx <- VIM::kNN(dat) 
@@ -97,14 +101,15 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
+  
   if (method == "cart") {
     
   impx <- simputation::impute_cart(dat, .~.)
   return(impx)
   }
   
-  
   #-------------------------------------------------
+  
   if (method == "missforest") {
    
   impx <- missForest::missForest(dat, xtrue = dat, verbose = FALSE)$ximp
@@ -112,6 +117,7 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
+  
   if (method == "missranger") {
     
     impx <- missRanger::missRanger(dat, pmm.k = 5, num.trees = 100, verbose = 0)
@@ -119,6 +125,7 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
+  
   if (method == "spmm") {
     
     impx <- mice::complete(mice::mice(dat, m = 1, method = "pmm"))
@@ -126,6 +133,7 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
+  
   if (method == "mpmm") {
     
     impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE))
