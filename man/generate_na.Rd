@@ -13,9 +13,6 @@ generate_na(x, p = 0.2, seed = 123)
 
 \item{seed}{}
 }
-\value{
-
-}
 \description{
 Title
 }

@@ -23,9 +23,6 @@ imputed_coxmodel(
 
 \item{truelogHR}{}
 }
-\value{
-
-}
 \description{
 Title
 }

@@ -4,27 +4,23 @@
 #' @description 
 #' @usage imputer(dataNA, "method")
 #' @param data A data frame or matrix containing missing values
-#' @param method Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "glmnet", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "supermice".
+#' @param method Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf"
 #'
 #' @return A single complete data set imputed with the chosen method.
 #' @details 
 #' code{imputer} is a wrapper function that gives a direct use of the specified imputation method. All the available methods support mixed data type (continuous and categroical). 
-#' Two types of methods exist :
-#' - univariate imputation methods : "naive", "hotdeck", "knn", "cart", "glmnet", "missforest", "spmm", "famd", 
 #'
 #' \tabular{111}{
 #' \code{"naive"}  \tab Mean for continuous and Mode for categorical variables
 #' \code{"hotdeck"}  \tab Sequential hot deck imputation
 #' \code{"knn"}  \tab K-nearest neighbour imputation
 #' \code{"cart"}  \tab rpart algorithm
-#' \code{"glmnet"}  \tab ridge/elasticnet/lasso regression
 #' \code{"missforest"}  \tab Nonparametric imputation using Random Forest algorithm
 #' \code{"spmm"}  \tab Single Predictive Mean Matching
 #' \code{"famd"}  \tab Factorial Analysis for Mixed data imputation
 #' \code{"mpmm"}  \tab Multiple Predictive Mean Matching
 #' \code{"micerf"}  \tab Multiple Imputation by random forests
 #' \code{"missRanger"}  \tab Fast Imputation  by Chained Random Forests
-#' \code{"supermice"}  \tab SuplerLearner ensemble method based combined with {mice} approach
 
 
 #' @references
@@ -37,7 +33,7 @@ imputer <- function(data, method = "naive") {
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "glmnet", "missforest", "spmm", "famd", "missranger", "mpmm", "micerf", "supermice")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "micerf")
   
   stopifnot(is.data.frame(data))
   
@@ -93,6 +89,12 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
+  #if (method == "glmnet") {
+    
+    #impx <- simputation::impute_rlm(dat, .~1)
+    #return(impx)
+  #}
+  #-------------------------------------------------
   
   if (method == "knn") {
    
@@ -125,7 +127,7 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
-  
+  # single PMM
   if (method == "spmm") {
     
     impx <- mice::complete(mice::mice(dat, m = 1, method = "pmm"))
@@ -133,7 +135,7 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
-  
+  # Multiple PMM
   if (method == "mpmm") {
     
     impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE))
@@ -150,12 +152,18 @@ imputer <- function(data, method = "naive") {
   #-------------------------------------------------
   if (method == "micerf") {
     
-    impx <- mice::complete(mice::mice(dat, meth = "rf", ntree = 5, print = FALSE))
+    impx <- mice::complete(mice::mice(dat, meth = "rf", m = 10, ntree = 5, print = FALSE))
     return(impx) 
   }
   
   #-------------------------------------------------
+  # \code{"glmnet"}  \tab ridge/elasticnet/lasso regression
 
+  # add superMICe : only numeric and binary
+  # \code{"supermice"}  \tab SuplerLearner ensemble method based combined with {mice} approach
+  
+  #impx <- mice::complete(mice::mice(dat, m = 5, maxit = 5, method = "SuperLearner", print = TRUE, SL.library = c("SL.glm", "SL.xgboost", ""); kernel = "gaussian", bw = c(0.25, 1, 5)))
+  # return(impx)
   
   # add Amelia & mi : https://github.com/Tirgit/missCompare/blob/master/R/impute_data.R
 

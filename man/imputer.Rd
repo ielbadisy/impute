@@ -10,7 +10,7 @@ imputer(dataNA, "method")
 \arguments{
 \item{data}{A data frame or matrix containing missing values}
 
-\item{method}{Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "glmnet", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "supermice".}
+\item{method}{Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf"}
 }
 \value{
 A single complete data set imputed with the chosen method.

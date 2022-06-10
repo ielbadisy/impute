@@ -4,30 +4,18 @@
 \alias{evaluate_coxpred}
 \title{Title}
 \usage{
-evaluate_coxpred(
-  data,
-  R = 5,
-  seed = 1234,
-  method = "fullcox",
-  scenario = "MAR-10",
-  ...
-)
+evaluate_coxpred(dat, myformula, metric, seed = 1234, ...)
 }
 \arguments{
-\item{data}{generate with the substantive cox model either complete or imputed}
+\item{dat}{}
 
-\item{R}{number of replcations}
+\item{myformula}{}
+
+\item{metric}{AUC, IBS or predError}
 
 \item{seed}{radnom number generation}
 
-\item{method}{}
-
-\item{scenario}{}
-
 \item{...}{}
-}
-\value{
-
 }
 \description{
 Title

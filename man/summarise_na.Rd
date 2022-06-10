@@ -9,9 +9,6 @@ summarise_na(data)
 \arguments{
 \item{data}{}
 }
-\value{
-
-}
 \description{
 Title
 }

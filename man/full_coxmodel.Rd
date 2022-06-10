@@ -15,9 +15,6 @@ full_coxmodel(fullcox, myformula, scenario = "baseline", method = "fullcox")
 
 \item{method}{}
 }
-\value{
-
-}
 \description{
 Title
 }

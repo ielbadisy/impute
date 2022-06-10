@@ -9,9 +9,6 @@ plot_miss(dataNA)
 \arguments{
 \item{dataNA}{}
 }
-\value{
-
-}
 \description{
 Title
 }
