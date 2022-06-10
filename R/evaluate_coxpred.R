@@ -52,6 +52,9 @@ evaluate_coxpred <- function(dat, myformula, metric, seed = 1234, ...) {
     
     #****survAUC::preErr (absolute deviation between predicted and observed survival)
     # Schmid, M., T. Hielscher, T. Augustin, and O. Gefeller (2011).
+    
+    # implemented by hand see example here : https://stackoverflow.com/questions/44738753/obtaining-absolute-deviation-from-mean-for-two-sets-of-scores
+    
     # A robust alter- native to the Schemper-Henderson estimator of prediction error. Biometrics 67, 524–535.
     
     fitcox <- survival::coxph(myformula, data = data.train, x = TRUE)
@@ -79,6 +82,8 @@ evaluate_coxpred <- function(dat, myformula, metric, seed = 1234, ...) {
    res
 }
 
-#dat <- imputer::generate_cox(1000)
-#myformula <- as.formula(Surv(time, event) ~ x1 + x2 + x3 + x4 + x5)
+# see fit.coxph from peperr for a simple interface 
+# see here : ipec from https://cran.r-project.org/web/packages/peperr/peperr.pdf
+# dat <- imputer::generate_cox(1000)
+# myformula <- as.formula(Surv(time, event) ~ x1 + x2 + x3 + x4 + x5)
 #evaluate_coxpred(dat, myformula, metric = "IBS")

@@ -4,14 +4,14 @@
 \alias{evaluate_coxest}
 \title{Title}
 \usage{
-evaluate_coxest(estimate, truelogHR, method = "naive", scenario = "MAR-10")
+evaluate_coxest(estimate, truelogHR, metric)
 }
 \arguments{
 \item{estimate}{}
 
 \item{truelogHR}{}
 
-\item{method}{}
+\item{metric}{bias, MCe, sd_est, bias_rel, precision, cor, MAE, MAE_rel, nr_NA}
 }
 \value{
 data frame containing results

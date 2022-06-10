@@ -1,39 +1,136 @@
+
+suppressPackageStartupMessages(require(gdata))
+suppressPackageStartupMessages(require(mice))
+suppressPackageStartupMessages(require(mltools))
+
+imputeMean <- function(df, args_list = NULL){
+  df <- data.frame(df)
+  df_imp <- df
+  vars_real <- colnames(df)[sapply(df, is.numeric)]
+  vars_factor <- colnames(df)[!sapply(df, is.numeric)]
+  
+  if (length(vars_real) >0){
+    if (length(vars_real)>1){
+      mean_real <- sapply(df[,vars_real], mean, na.rm=T)
+    } else {
+      mean_real <- c(mean(df[,vars_real], na.rm=T))
+    }
+    df_imp[ , vars_real] <- sapply(1:length(vars_real), 
+                                   function(x) ifelse(is.na(df_imp[,vars_real[x]]), mean_real[x], df_imp[,vars_real[x]]))
+  }
+  
+  if (length(vars_factor) > 0 ){
+    fact.levels <- sapply(vars_factor, FUN=function(x) levels(df[,x]))
+    mode_factor <- as.vector(apply(data.frame(df[, vars_factor]), MARGIN=2, 
+                                   FUN = function(x) as.data.frame(table(x))[which.max(table(x)),1]))
+    df_imp[ , vars_factor] <- sapply(1:length(vars_factor), 
+                                     function(x) ifelse(is.na(df_imp[,vars_factor[x]]), mode_factor[x], as.character(df_imp[,vars_factor[x]])))
+    for (i in 1:length(vars_factor)){
+      df_imp[,vars_factor[i]] <- as.factor(df_imp[,vars_factor[i]])
+      levels(df_imp[,vars_factor[i]]) <- levels(df[,vars_factor[i]])
+    }
+  }
+  return(df_imp)
+}
+
+threshold <- function(MD_patterns){
+  #DO
+  #How to deal with the weight threshold?
+  #between 5 to 10% - we take the x largest
+  #below 5% - we sample them at random
+}
+
+logit.bypatterns <- function(data,patterns,mechanism){
+  logit.weights <- matrix(rep(0,times=(nrow(patterns)*ncol(data))),nrow=nrow(patterns))
+  
+  #we have to replace the missing data to prevent these cases to be deleted
+  meandata <- as.data.frame(imputeMean(data))
+  
+  
+  for (i in seq_len(nrow(patterns))){
+    
+    newcol <- rep(0,times=nrow(data))
+    
+    #checking which individuals have this pattern of missingness:
+    #code from stackoverflow
+    patternrows <- which(apply(apply(!is.na(data),1,function(x) x==patterns[i,]),2,function(x) sum(x)==length(x)))
+    #end of code copied from stackoverflow
+    
+    newcol[patternrows] <- 1
+    
+    variablesmissing <- which(patterns[i,]==0)
+    
+    subdata <- cbind(meandata[,-variablesmissing],"newcol"=newcol)
+    
+    
+    if (length(unique(newcol))==1){
+      logit.weights[i,-variablesmissing] <- 1/ncol(logit.weights)
+    } else {
+      if (nrow(subdata) >= ncol(subdata)-1){
+        logit.weights[i,-variablesmissing] <- glm(newcol ~ ., data = subdata, family = binomial)$coefficients[-1]
+        
+      } else {
+        x <- model.matrix(~.-1, data = subdata[, 1:(ncol(subdata)-1)])
+        cv.fit <- NULL
+        try(cv.fit <- glmnet::cv.glmnet(x=x, 
+                                        y=subdata$newcol, alpha = 0,
+                                        family = "binomial"), silent = T)
+        if (is.null(cv.fit)){
+          lambda.max <- max(svd(x)$d)
+          lambda <- runif(1, 0.2, 0.8)*lambda.max
+        } else {
+          lambda <- cv.fit$lambda.min
+        }
+        glm_mod <- NULL
+        try(glm_mod <- glmnet::glmnet(x=x, y=subdata$newcol, alpha = 0, family = "binomial",
+                                      lambda = lambda), silent = T)
+        if (!is.null(glm_mod)){
+          coefs <- as.vector(glm_mod$beta)
+        } else {
+          coefs <- LiblineaR::LiblineaR(x, subdata$newcol, type=0)$W[1:ncol(x)]
+        }
+        logit.weights[i,-variablesmissing] <- coefs
+      }
+    }
+    
+    
+    if(mechanism=="MNAR"){
+      
+      logit.weights[i,variablesmissing] = mean(logit.weights[i,-variablesmissing])
+      
+    }
+  }
+  return(logit.weights)
+}
+
 #' generate missing data on complete or incomplete data under MAR, MCAR and MNAR mechanisms and patterns
+#' according to different missingness mechanisms and patterns
 #' 
-#' @param data [data.frame, matrix] a complet of incomplete data frame of matrix. 
-#' @param mechanism [string] could be "MCAR", "MAR" or "MNAR". Default is "MCAR". 
+#' @param data [data.frame, matrix] (mixed) data table (n x p)
+#' @param mechanism [string] either one of "MCAR", "MAR", "MNAR"; default is "MCAR"
 #' @param self.mask [string] either NULL or one of "sym", "upper", "lower"; default is NULL
-#' @param perc.missing [positive double] proportion of missing values, between 0 and 1. Default is 0.5.
-#' @param idx.incomplete [array] indices of variables to generate missing values in. If NULL then missing values in all variables are possible. Default is NULL.
-#' @param idx.covariates [matrix] binary matrix such that entries in row i that are equal to 1 indicate covariates that incluence missingness of variable i (sum(idx.incomplete) x p). If NULL all covariates contribute. Default is NULL.
-#' @param weights.covariates [matrix] matrix of same size as idx.covariates with weights in row i for contribution of each covariate to missingness model of variable i. If NULL then a (regularized) logistic model is fitted. Default is NULL.
-#' @param by.patterns [boolean] generate missing values according to (pre-specified) patterns. Default is FALSE.
-#' @param patterns [matrix] binary matrix with 1=observed, 0=missing (n_pattern x p). Default is NULL.
-#' @param freq.patterns [array] array of size n_pattern containing desired proportion of each pattern. if NULL then mice::ampute.default.freq will be called. Default is NULL.
-#' @param weights.patterns [matrix] weights used to calculate weighted sum scores (n_pattern x p). If NULL then mice::ampute.default.weights will be called. Default is NULL.
-#' @param use.all [boolean] use all observations, including incomplete observations, for amputation when amputing by patterns (only relevant if initial data is incomplete and by.pattern=T). Default is FALSE.
-#' @param logit.model [string] either one of "RIGHT","LEFT","MID","TAIL". Default is "RIGHT".
-#' @param seed [natural integer] seed for random numbers generator. Default is 1234.
+#' @param perc.missing [positive double] proportion of missing values, between 0 and 1; default is 0.5
+#' @param idx.incomplete [array] indices of variables to generate missing values for; if NULL then missing values in all variables are possible; default is NULL
+#' @param idx.covariates [matrix] binary matrix such that entries in row i that are equal to 1 indicate covariates that incluence missingness of variable i (sum(idx.incomplete) x p); if NULL then all covariates contribute; default is NULL
+#' @param weights.covariates [matrix] matrix of same size as idx.covariates with weights in row i for contribution of each covariate to missingness model of variable i; if NULL then a (regularized) logistic model is fitted; default is NULL
+#' @param by.patterns [boolean] generate missing values according to (pre-specified) patterns; default is FALSE
+#' @param patterns [matrix] binary matrix with 1=observed, 0=missing (n_pattern x p); default is NULL
+#' @param freq.patterns [array] array of size n_pattern containing desired proportion of each pattern; if NULL then mice::ampute.default.freq will be called ; default is NULL
+#' @param weights.patterns [matrix] weights used to calculate weighted sum scores (n_pattern x p); if NULL then mice::ampute.default.weights will be called; default is NULL
+#' @param use.all [boolean] use all observations, including incomplete observations, for amputation when amputing by patterns (only relevant if initial data is incomplete and by.pattern=T); default is FALSE
+#' @param logit.model [string] either one of "RIGHT","LEFT","MID","TAIL"; default is "RIGHT"
+#' @param seed [natural integer] seed for random numbers generator; default is NULL
 #' 
 #' @return A list with the following elements
 #' \item{data.init}{original data.frame}
 #' \item{data.incomp}{data.frame with the newly generated missing values, observed values correspond to the values from the initial data.frame}
 #' \item{idx_newNA}{a boolean data.frame indicating the indices of the newly generated missing values}
 #'
-#' @references 
-#' Schouten, R.M., Lugtig, P and Vink, G. (2018) \href{https://www.tandfonline.com/doi/full/10.1080/00949655.2018.1491577}{Generating missing values for simulation purposes: A multivariate amputation procedure.}. \emph{Journal of Statistical Computation and Simulation}, 88(15): 1909-1930.
-#' Teresa Alves de Sousa et Imke Mayer (2021) \href{https://rmisstastic.netlify.app/how-to/generate/misssimul#311_MCAR}{How to generate missing values?}
-#' @example 
-#' # introduce ~ 30% of NA under MCAR to the iris data set using the default settings
-#' irisMCAR <- ampute3(iris, mechanism = "MCAR", perc.missing = 0.3)
-#' irisMCAR
-#' @import mice mltools LiblineaR glmnet dplyr
-#' @export 
-
-
-ampute3 <- function(data, 
+#' @export
+#' @import mice mltools gdata LiblineaR glmnet dplyr
+produce_NA <- function(data, 
                        mechanism = "MCAR", #c("MCAR", "MAR", "MNAR"),
-                       perc.missing = 0.2, 
+                       perc.missing = 0.5, 
                        self.mask = NULL, #c("sym","upper","lower")
                        idx.incomplete = NULL,
                        idx.covariates = NULL,
@@ -43,9 +140,8 @@ ampute3 <- function(data,
                        freq.patterns = NULL,
                        weights.patterns = NULL,
                        use.all = FALSE, 
-                       logit.model = "RIGHT",#c("RIGHT","LEFT","MID","TAIL"),
-                       seed = 1234
-                       ) 
+                       logit.model = "RIGHT",#c("RIGHT","LEFT","MID","TAIL")
+                       seed = NULL) 
 {
   
   if (!is.null(seed)){
@@ -314,8 +410,10 @@ ampute3 <- function(data,
       
       
       
-      #return(list("data.init" = data, "data.incomp" = data.incomp, "idx_newNA" = idx_newNA)) 
-      return(data.incomp)
+      return(list("data.init" = data,
+                  "data.incomp" = data.incomp,
+                  "idx_newNA" = idx_newNA)) 
+      
       
     } else{ #by.patterns==FALSE
       
@@ -370,8 +468,10 @@ ampute3 <- function(data,
             gdata::mapLevels(x=tmp$data.incomp[,vars_factor[[i]]]) <- levels_factor[[i]]
           }
         }
-        #return(list("data.init" = tmp$data.init", data.incomp" = tmp$data.incomp, "idx_newNA" = tmp$idx_newNA))
-        return(data.incomp)
+        return(list("data.init" = tmp$data.init,
+                    "data.incomp" = tmp$data.incomp,
+                    "idx_newNA" = tmp$idx_newNA))
+        
       }
     } 
     
@@ -417,8 +517,9 @@ produce_MCAR <- function(data, perc.missing, idx.incomplete){
   data.incomp[idx_newNA] <- NA
   
   
-  #return(list("data.init" = data,"data.incomp" = data.incomp,"idx_newNA" = idx_newNA))
-  return(data.incomp)
+  return(list("data.init" = data,
+              "data.incomp" = data.incomp,
+              "idx_newNA" = idx_newNA))
 }
 
 
@@ -481,8 +582,9 @@ produce_MAR_MNAR <- function(data, mechanism, perc.missing, self.mask, idx.incom
     data.incomp[idx_newNA] <- NA
     data.incomp[is.na(data)] <- NA #re-storing original missing data
     
-    #return(list("data.init" = data,"data.incomp" = data.incomp, "idx_newNA" = idx_newNA))
-    return(data.incomp)
+    return(list("data.init" = data,
+                "data.incomp" = data.incomp,
+                "idx_newNA" = idx_newNA))
   }
   
   data.orig <- data
@@ -716,16 +818,10 @@ produce_MAR_MNAR <- function(data, mechanism, perc.missing, self.mask, idx.incom
   
   
   
-  #return(list("data.init" = data, "data.incomp" = data.incomp, "idx_newNA" = idx_newNA))
-  return(data.incomp)
+  return(list("data.init" = data,
+              "data.incomp" = data.incomp,
+              "idx_newNA" = idx_newNA))
 }
-
-
-
-
-
-
-
 
 
 
