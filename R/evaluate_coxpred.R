@@ -60,7 +60,7 @@ evaluate_coxpred <- function(dat, myformula, metric, seed = 1234, ...) {
     surv_obj <- survival::Surv(data.train$time, data.train$event)
     surv_obj_new <- survival::Surv(data.test$time, data.test$event)
     
-    predError = survAUC::predErr(surv_obj, surv_obj_new, predcox, predcoxnew, dis_time, type = "robust", int.type = "weighted")$ierror
+    predError = survAUC::predErr(surv_obj, surv_obj_new, predcox, predcoxnew, dis_time, type = "robust", int.type = "unweighted")$ierror
     
     #**************** results
   #pred_metrics = data.frame(metrics = c('IBS', 'predError', 'AUC'), 
@@ -81,4 +81,4 @@ evaluate_coxpred <- function(dat, myformula, metric, seed = 1234, ...) {
 
 #dat <- imputer::generate_cox(1000)
 #myformula <- as.formula(Surv(time, event) ~ x1 + x2 + x3 + x4 + x5)
-#evaluate_coxpred(dat, myformula, metric = "predError")
+#evaluate_coxpred(dat, myformula, metric = "IBS")
