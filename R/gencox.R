@@ -1,0 +1,63 @@
+#-------------------gencox() 
+
+##' Generate survival data with $beta$, $lambda_t$ baseline of censoring and $labmda_c$ hazard of censoring
+##' @title Generate survival data from a Cox model
+##' 
+##' @param N Sample size
+##' @param beta true beta vector 
+##' @param lambdaT baseline hazard (scale parameter in h0)
+##' @param rho scale parameter
+##' @param rateC rate parameter of the exponential distribution of C 
+##' 
+##' @return data.frame with time (survival time), event(0 = censored), predictors (x_i)
+##'         T (survival time), event (0: censored),
+##' @export 
+##' @references N.J. Horton and Ken K.Keinman, Using R and RStudio for Data Management and Statistical Analysis and Graphics, second edition, 2015
+
+gencox <- function(N = 1000, beta = rep(0.5,5), lambda = 0.002,  rho = 0.003, rateC = 0.004) {
+  pacman::p_load(mice, survival)
+  # covariates
+  x1 = rnorm(N)
+  x2 = rnorm(N)
+  x3 = 0.5 * (x1 + x2 - x1 * x2) + rnorm(N) # !!!!! derived variable from x1 and x3
+  x4 = rbinom(N, 1, 0.4) # binary variable
+  x5 = sample(c(1, 2, 3), N, replace= TRUE, prob = c(1/2, 1/4, 1/4)) # ordinal variale ????!!!!
+  
+  # latent event times   Weibull
+  v <- runif(n = N)
+  
+  #  estimated survival times 
+  Tlat <- (- log(v) / (lambda * exp(beta[1]*x1 + beta[2]*x2 + beta[3]*x3 + beta[4]*x4 + beta[5]*x5)))^(1/rho)
+  # censoring times 
+  C <- rexp(N, rate = rateC) 
+  
+  # follow-up times and event indicators
+  #observed time is min of censored and true
+  time <- pmin(Tlat, C) 
+  status <- as.numeric(Tlat <= C)
+  
+  # data set
+  data <- data.frame(time, status, x1, x2, x3, x4, x5)
+  # Observed marginal cumulative hazard for imputation model : Nelson-Altschuler- Aalen estimator
+  
+  data$cumhaz <- mice::nelsonaalen(data, time, status) # need a helper function  + problem with NA for some patients
+  
+  # final generated dataset
+  #data$x4 <- as.factor(data$x4)
+  #data$x5 <- as.factor(data$x5)
+  return(data)
+  }
+
+
+##-----test
+
+#set.seed(123)
+#myformula <- as.formula(Surv(time, status) ~ x1 + x2 + x3 + x4 + x5)
+#betaHat <- rep(0.5, 5)
+#for (k in 1:1000){
+  #dat <- gencox(N = 1000, beta = betaHat, rho = 0.8, lambda = 0.01, rateC = 0.001)
+  #fit <- survival::coxph(myformula, data = dat)
+  #betaHat[k] <- fit$coef
+#}
+#mean(betaHat)
+#fit

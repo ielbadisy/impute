@@ -3,7 +3,7 @@
 export(evaluate_coxest)
 export(evaluate_coxpred)
 export(full_coxmodel)
-export(generate_cox)
+export(gencox)
 export(generate_na)
 export(imputed_coxmodel)
 export(imputer)
