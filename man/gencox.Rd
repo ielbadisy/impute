@@ -8,8 +8,8 @@ gencox(
   N = 1000,
   beta = rep(0.5, 5),
   lambda = 0.002,
-  rho = 0.003,
-  rateC = 0.004
+  rateC = 0.004,
+  rho = 0.003
 )
 }
 \arguments{
@@ -17,15 +17,15 @@ gencox(
 
 \item{beta}{true beta vector}
 
+\item{lambda}{baseline hazard (scale parameter in h0)}
+
+\item{rateC}{rate parameter of the exponential distribution of Censoring}
+
 \item{rho}{scale parameter}
-
-\item{rateC}{rate parameter of the exponential distribution of C}
-
-\item{lambdaT}{baseline hazard (scale parameter in h0)}
 }
 \value{
-data.frame with time (survival time), event(0 = censored), predictors (x_i)
-T (survival time), event (0: censored),
+data.frame with time (survival time), status(1 = censored), predictors (x_i)
+time(survival time), cumhaz (cumulative hazad),
 }
 \description{
 Generate survival data with $beta$, $lambda_t$ baseline of censoring and $labmda_c$ hazard of censoring

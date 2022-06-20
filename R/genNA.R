@@ -1,8 +1,3 @@
-
-
-
-
-
 # MAR 
 genNA <- function(data, perc.miss = 0.2) {
   
