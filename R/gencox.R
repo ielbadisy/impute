@@ -14,14 +14,14 @@
 ##' @export 
 ##' @references N.J. Horton and Ken K.Keinman, Using R and RStudio for Data Management and Statistical Analysis and Graphics, second edition, 2015
 
-gencox <- function(N = 1000, beta = rep(0.5,5), lambda = 0.002, rateC = 0.004,  rho = 0.003) {
+gencox <- function(N = 1000, beta = rep(0.5,5), lambda = 0.002, rateC = 0.004,  rho = 0.003, seed = 123) {
   
   pacman::p_load(mice, survival)
-  
+  set.seed(seed)
   # covariates
   x1 = rnorm(N)
   x2 = rnorm(N)
-  x3 = 0.5 * (x1 + x2 - x1 * x2) + rnorm(N) # derived variable from x1 and x3
+  x3 = 0.5 * (x1 + x2) + rnorm(N) # derived variable from x1 and x3
   x4 = rbinom(N, 1, 0.4) # binary variable
   x5 = sample(c(1, 2, 3), N, replace= TRUE, prob = c(1/2, 1/4, 1/4)) # ordinal variale ????!!!!
   
@@ -49,17 +49,19 @@ gencox <- function(N = 1000, beta = rep(0.5,5), lambda = 0.002, rateC = 0.004,  
   #data$x4 <- as.factor(data$x4)
   #data$x5 <- as.factor(data$x5)
   return(data)
-  }
+}
 
 
 ##-----test
 
 #set.seed(123)
+#R = 1000
 #myformula <- as.formula(Surv(time, status) ~ x1 + x2 + x3 + x4 + x5)
 #betaHat <- rep(0.5, 5)
-#for (k in 1:100){
+#beta <- rep(NA, R)
+#for (k in 1:R){
   #dat <- gencox(N = 1000, beta = betaHat, rho = 1, lambda = 0.01, rateC = 0.003)
   #fit <- survival::coxph(myformula, data = dat)
-  #betaHat[k] <- fit$coef
+  #beta[k] <- fit$coef
 #}
-#mean(betaHat)
+#mean(beta)

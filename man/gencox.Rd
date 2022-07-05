@@ -9,7 +9,8 @@ gencox(
   beta = rep(0.5, 5),
   lambda = 0.002,
   rateC = 0.004,
-  rho = 0.003
+  rho = 0.003,
+  seed = 123
 )
 }
 \arguments{
