@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of imputer is to give a consistant yet direct way to
+The aim of imputer is to give a consistant yet direct way to
 impute/ampute a data set using a variety set of imputation algorihms (see
 ?imputer::imputer).
 
