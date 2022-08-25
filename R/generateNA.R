@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-generate_na <- function(x, p = 0.2, seed = 123) {
+generateNA <- function(x, p = 0.2, seed = 123) {
   
   stopifnot(p >= 0, p <= 1, is.atomic(x) || is.data.frame(x))
   
