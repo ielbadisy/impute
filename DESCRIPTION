@@ -14,16 +14,9 @@ LazyData: true
 URL: https://github.com/ielbadisy/imputer
 BugReports: https://github.com/ielbadisy/imputer/issues
 Suggests: 
-    testthat (>= 2.1.0),
-    covr,
-    spelling
+    testthat (>= 2.1.0)
 Imports: 
-    survival,
-    dplyr,
-    glmnet,
-    mice,
-    mltools,
-    LiblineaR
+    mice
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Depends: 

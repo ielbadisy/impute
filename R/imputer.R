@@ -28,6 +28,7 @@
 #' 
 #' @export
 #' @examples
+#'
 imputer <- function(data, method = "naive") {
   
   dat <- data
