@@ -21,14 +21,18 @@
 #' \code{"mpmm"}  \tab Multiple Predictive Mean Matching
 #' \code{"micerf"}  \tab Multiple Imputation by random forests
 #' \code{"missRanger"}  \tab Fast Imputation  by Chained Random Forests
-
-
 #' @references
 #' evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
-#' 
-#' @export
+#' @import simputation
+#' @import missForest
+#' @import missRanger
+#' @import mice
+#' @import missMDA
+#' @export 
+#' @importFrom stats median runif
 #' @examples
 #'
+
 imputer <- function(data, method = "naive") {
   
   dat <- data
@@ -85,38 +89,38 @@ imputer <- function(data, method = "naive") {
   
   if (method == "hotdeck") {
     
-  impx <- simputation::impute_shd(dat, .~1, backend="VIM")
-  return(impx)
+    impx <- simputation::impute_shd(dat, .~1, backend="VIM")
+    return(impx)
   }
   
   #-------------------------------------------------
   #if (method == "glmnet") {
-    
-    #impx <- simputation::impute_rlm(dat, .~1)
-    #return(impx)
+  
+  #impx <- simputation::impute_rlm(dat, .~1)
+  #return(impx)
   #}
   #-------------------------------------------------
   
   if (method == "knn") {
-   
-  impx <- VIM::kNN(dat) 
-  return(impx[var])
+    
+    impx <- VIM::kNN(dat) 
+    return(impx[var])
   }
   
   #-------------------------------------------------
   
   if (method == "cart") {
     
-  impx <- simputation::impute_cart(dat, .~.)
-  return(impx)
+    impx <- simputation::impute_cart(dat, .~.)
+    return(impx)
   }
   
   #-------------------------------------------------
   
   if (method == "missforest") {
-   
-  impx <- missForest::missForest(dat, xtrue = dat, verbose = FALSE)$ximp
-  return(impx) 
+    
+    impx <- missForest::missForest(dat, xtrue = dat, verbose = FALSE)$ximp
+    return(impx) 
   }
   
   #-------------------------------------------------
@@ -159,7 +163,7 @@ imputer <- function(data, method = "naive") {
   
   #-------------------------------------------------
   # \code{"glmnet"}  \tab ridge/elasticnet/lasso regression
-
+  
   # add superMICe : only numeric and binary
   # \code{"supermice"}  \tab SuplerLearner ensemble method based combined with {mice} approach
   
@@ -167,5 +171,5 @@ imputer <- function(data, method = "naive") {
   # return(impx)
   
   # add Amelia & mi : https://github.com/Tirgit/missCompare/blob/master/R/impute_data.R
-
+  
 }
