@@ -3,26 +3,38 @@
 \docType{package}
 \name{imputer}
 \alias{imputer}
-\title{impute variables with missing data values using a specific algorithm}
+\title{Impute mixed-type data with missing values using a specific algorithm}
 \usage{
-imputer(dataNA, "method")
+imputer(data_with_NA, "imputation_method")
 }
 \arguments{
 \item{data}{A data frame or matrix containing missing values}
 
-\item{method}{Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf"}
+\item{method}{Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "micecart",}
 }
 \value{
 A single complete data set imputed with the chosen method.
+\code{imputer} is a wrapper function that gives a direct use of the specified imputation method. All the available methods support mixed data type (continuous and categroical).
+\tabular{111}{
+\code{"naive"}  \tab imputation by mean for continuous and mode for categorical variables
+\code{"hotdeck"}  \tab single sequential hot deck imputation
+\code{"knn"}  \tab single imputation by k-nearest neighbor
+\code{"cart"}  \tab single imputation by classification and regression trees
+\code{"missforest"}  \tab single nonparametric imputation using random forest algorithm
+\code{"spmm"}  \tab single predictive mean matching
+\code{"famd"}  \tab single imputation by factorial analysis for mixed-type
+\code{"missranger"}  \tab single imputation  by chained random forests
+\code{"mice"} \tab multiple imputation by chained equations
+\code{"mpmm"}  \tab multiple predictive mean matching
+\code{"micerf"}  \tab multiple Imputation by random forests
+\code{"micecart"} \tab multiple by imputation by classification and regression
 }
 \description{
+add description
+
 A consistent wrapper for a set of imputation algorithms
 }
-\details{
-
-}
 \examples{
-
 # add a simple example here to introduce the package!
 
 }

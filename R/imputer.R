@@ -1,26 +1,26 @@
 
-#' impute variables with missing data values using a specific algorithm
+#' Impute mixed-type data with missing values using a specific algorithm
 #'
-#' @description 
-#' @usage imputer(dataNA, "method")
+#' @description add description  
+#' @usage imputer(data_with_NA, "imputation_method")
 #' @param data A data frame or matrix containing missing values
-#' @param method Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf"
-#'
+#' @param method Imputation algorithms wrapped in the imputer function : "naive", "hotdeck", "knn", "cart", "missranger", "missforest", "spmm", "famd", "mpmm", "micerf", "micecart", 
 #' @return A single complete data set imputed with the chosen method.
-#' @details 
-#' code{imputer} is a wrapper function that gives a direct use of the specified imputation method. All the available methods support mixed data type (continuous and categroical). 
-#'
+#' \code{imputer} is a wrapper function that gives a direct use of the specified imputation method. All the available methods support mixed data type (continuous and categroical). 
 #' \tabular{111}{
-#' \code{"naive"}  \tab Mean for continuous and Mode for categorical variables
-#' \code{"hotdeck"}  \tab Sequential hot deck imputation
-#' \code{"knn"}  \tab K-nearest neighbour imputation
-#' \code{"cart"}  \tab rpart algorithm
-#' \code{"missforest"}  \tab Nonparametric imputation using Random Forest algorithm
-#' \code{"spmm"}  \tab Single Predictive Mean Matching
-#' \code{"famd"}  \tab Factorial Analysis for Mixed data imputation
-#' \code{"mpmm"}  \tab Multiple Predictive Mean Matching
-#' \code{"micerf"}  \tab Multiple Imputation by random forests
-#' \code{"missRanger"}  \tab Fast Imputation  by Chained Random Forests
+#' \code{"naive"}  \tab imputation by mean for continuous and mode for categorical variables
+#' \code{"hotdeck"}  \tab single sequential hot deck imputation
+#' \code{"knn"}  \tab single imputation by k-nearest neighbor
+#' \code{"cart"}  \tab single imputation by classification and regression trees
+#' \code{"missforest"}  \tab single nonparametric imputation using random forest algorithm
+#' \code{"spmm"}  \tab single predictive mean matching
+#' \code{"famd"}  \tab single imputation by factorial analysis for mixed-type
+#' \code{"missranger"}  \tab single imputation  by chained random forests
+#' \code{"mice"} \tab multiple imputation by chained equations 
+#' \code{"mpmm"}  \tab multiple predictive mean matching
+#' \code{"micerf"}  \tab multiple Imputation by random forests
+#' \code{"micecart"} \tab multiple by imputation by classification and regression 
+#' 
 #' @references
 #' evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3)) 
 #' @import simputation
@@ -30,15 +30,12 @@
 #' @import missMDA
 #' @export 
 #' @importFrom stats median runif
-#' @examples
-#'
-
 imputer <- function(data, method = "naive") {
   
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "micerf")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "micesample")
   
   stopifnot(is.data.frame(data))
   
@@ -100,29 +97,23 @@ imputer <- function(data, method = "naive") {
   #return(impx)
   #}
   #-------------------------------------------------
-  
   if (method == "knn") {
     
     impx <- VIM::kNN(dat) 
     return(impx[var])
   }
-  
   #-------------------------------------------------
-  
   if (method == "cart") {
     
     impx <- simputation::impute_cart(dat, .~.)
     return(impx)
   }
-  
   #-------------------------------------------------
-  
   if (method == "missforest") {
     
     impx <- missForest::missForest(dat, xtrue = dat, verbose = FALSE)$ximp
     return(impx) 
   }
-  
   #-------------------------------------------------
   
   if (method == "missranger") {
@@ -130,7 +121,6 @@ imputer <- function(data, method = "naive") {
     impx <- missRanger::missRanger(dat, pmm.k = 5, num.trees = 100, verbose = 0)
     return(impx) 
   }
-  
   #-------------------------------------------------
   # single PMM
   if (method == "spmm") {
@@ -138,7 +128,6 @@ imputer <- function(data, method = "naive") {
     impx <- mice::complete(mice::mice(dat, m = 1, method = "pmm"))
     return(impx) 
   }
-  
   #-------------------------------------------------
   # Multiple PMM
   if (method == "mpmm") {
@@ -146,30 +135,31 @@ imputer <- function(data, method = "naive") {
     impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE))
     return(impx) 
   }
-  
   #-------------------------------------------------
   if (method == "famd") {
     
     impx <- missMDA::imputeFAMD(dat, ncp = 3)$completeObs
     return(impx) 
   }
-  
+  #-------------------------------------------------
+  if (method == "mice") {
+    
+    impx <- mice::complete(mice::mice(dat, print = FALSE))
+    return(impx) 
+  }
+  #-------------------------------------------------
+  if (method == "micecart") {
+    
+    impx <- mice::complete(mice::mice(dat, meth = "cart", minbucket = 4, print = FALSE))
+    return(impx) 
+  }
   #-------------------------------------------------
   if (method == "micerf") {
     
     impx <- mice::complete(mice::mice(dat, meth = "rf", m = 10, ntree = 5, print = FALSE))
     return(impx) 
   }
-  
   #-------------------------------------------------
-  # \code{"glmnet"}  \tab ridge/elasticnet/lasso regression
   
-  # add superMICe : only numeric and binary
-  # \code{"supermice"}  \tab SuplerLearner ensemble method based combined with {mice} approach
-  
-  #impx <- mice::complete(mice::mice(dat, m = 5, maxit = 5, method = "SuperLearner", print = TRUE, SL.library = c("SL.glm", "SL.xgboost", ""); kernel = "gaussian", bw = c(0.25, 1, 5)))
-  # return(impx)
-  
-  # add Amelia & mi : https://github.com/Tirgit/missCompare/blob/master/R/impute_data.R
-  
+  ## Add more method here ! 
 }

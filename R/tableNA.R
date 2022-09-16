@@ -1,14 +1,4 @@
 
-#' Title
-#'
-#' @param data 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' #----------- summarise_na() : summarise NA by cases and variables (wrapper for naniar::NA_var_summary & naniar::NA_case_summary)
-
 tableNA <- function(data, order = TRUE, cumsum = FALSE) {
   
   col_NA <- colSums(is.na(data))

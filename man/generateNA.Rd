@@ -7,11 +7,14 @@
 generateNA(x, p = 0.2, seed = 123)
 }
 \arguments{
-\item{x}{}
+\item{x}{dataset with NA}
 
-\item{p}{}
+\item{p}{proportion of NA}
 
-\item{seed}{}
+\item{seed}{seed value}
+}
+\value{
+value
 }
 \description{
 Title

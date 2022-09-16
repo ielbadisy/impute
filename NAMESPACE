@@ -2,7 +2,6 @@
 
 export(generateNA)
 export(imputer)
-export(tableNA)
 import(mice)
 import(missForest)
 import(missMDA)

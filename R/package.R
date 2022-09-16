@@ -3,12 +3,10 @@
 
 #' @title Missing data imputation methods
 #' @name imputer
-#' 
 #' @description A consistent wrapper for a set of imputation algorithms 
 #' 
 #' @docType package
 #' @examples
-#' 
 #' # add a simple example here to introduce the package!
 #' 
 NULL

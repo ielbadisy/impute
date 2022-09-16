@@ -1,14 +1,15 @@
 
 #' Title
 #'
-#' @param x 
-#' @param p 
-#' @param seed 
+#' @param x dataset with NA
+#' @param p proportion of NA
+#' @param seed seed value
 #'
-#' @return
+#' @return value
 #' @export
 #'
 #' @examples
+
 generateNA <- function(x, p = 0.2, seed = 123) {
   
   stopifnot(p >= 0, p <= 1, is.atomic(x) || is.data.frame(x))
