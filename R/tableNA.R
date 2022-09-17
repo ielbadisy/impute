@@ -1,4 +1,4 @@
-
+#' @export
 tableNA <- function(data, order = TRUE, cumsum = FALSE) {
   
   col_NA <- colSums(is.na(data))
