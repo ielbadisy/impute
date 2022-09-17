@@ -1,4 +1,13 @@
+#' Title
+#'
+#' @param data
+#' @param order
+#' @param cumsum
+#'
+#' @return value
 #' @export
+#'
+#' @examples
 tableNA <- function(data, order = TRUE, cumsum = FALSE) {
   
   col_NA <- colSums(is.na(data))
