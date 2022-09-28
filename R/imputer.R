@@ -91,12 +91,6 @@ imputer <- function(data, method = "naive") {
   }
   
   #-------------------------------------------------
-  #if (method == "glmnet") {
-  
-  #impx <- simputation::impute_rlm(dat, .~1)
-  #return(impx)
-  #}
-  #-------------------------------------------------
   if (method == "knn") {
     
     impx <- VIM::kNN(dat) 
@@ -125,7 +119,7 @@ imputer <- function(data, method = "naive") {
   # single PMM
   if (method == "spmm") {
     
-    impx <- mice::complete(mice::mice(dat, m = 1, method = "pmm"))
+    impx <- mice::complete(mice::mice(dat, m = 1, method = "pmm", print = FALSE))
     return(impx) 
   }
   #-------------------------------------------------
