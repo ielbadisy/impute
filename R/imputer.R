@@ -35,7 +35,7 @@ imputer <- function(data, method = "naive") {
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "micesample")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "micesample", "complete")
   
   stopifnot(is.data.frame(data))
   
@@ -154,6 +154,12 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   #-------------------------------------------------
+  if (method == "complete") {
+    
+    impx <- dat[stats::complete.cases(dat), ]
+    return(impx) 
+  }
+  
   
   ## Add more method here ! 
 }
