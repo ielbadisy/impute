@@ -28,6 +28,7 @@
 #' @import missRanger
 #' @import mice
 #' @import missMDA
+#' @import superMICE
 #' @export 
 #' @importFrom stats median runif
 imputer <- function(data, method = "naive") {
@@ -126,7 +127,7 @@ imputer <- function(data, method = "naive") {
   # Multiple PMM
   if (method == "mpmm") {
     
-    impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE))
+    impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE), action = 1:10)
     return(impx) 
   }
   #-------------------------------------------------
@@ -138,21 +139,23 @@ imputer <- function(data, method = "naive") {
   #-------------------------------------------------
   if (method == "mice") {
     
-    impx <- mice::complete(mice::mice(dat, print = FALSE))
+    impx <- mice::complete(mice::mice(dat, m = 10, print = FALSE), action = 1:10)
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micecart") {
     
-    impx <- mice::complete(mice::mice(dat, meth = "cart", minbucket = 4, print = FALSE))
+    impx <- mice::complete(mice::mice(dat, m = 10, meth = "cart", minbucket = 4, print = FALSE), action = 1:10)
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micerf") {
     
-    impx <- mice::complete(mice::mice(dat, meth = "rf", m = 10, ntree = 5, print = FALSE))
+    impx <- mice::complete(mice::mice(dat, m = 10, meth = "rf", ntree = 5, print = FALSE), action = 1:10)
     return(impx) 
   }
+  
+  
   #-------------------------------------------------
   if (method == "complete") {
     
