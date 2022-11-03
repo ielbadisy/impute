@@ -133,25 +133,25 @@ imputer <- function(data, method = "naive") {
   # Multiple PMM
   if (method == "mpmm") {
     impx <- mice::mice(dat, m = 10, method = "pmm", print = FALSE)
-    impx <- mice::complete(impx, action = "all")
+    #impx <- mice::complete(impx, action = "all")
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "mice") {
     impx <- mice::mice(dat, m = 10, print = FALSE)
-    impx <- mice::complete(impx, action = "all") 
+    #impx <- mice::complete(impx, action = "all") 
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micecart") {
     impx <- mice::mice(dat, m = 10, meth = "cart", minbucket = 4, print = FALSE)
-    impx <- mice::complete(impx, action = "all")
+    #impx <- mice::complete(impx, action = "all")
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micerf") {
     impx <- mice::mice(dat, m = 10, meth = "rf", ntree = 5, print = FALSE)
-    impx <- mice::complete(impx, action = "all")
+    #impx <- mice::complete(impx, action = "all")
     return(impx) 
   }
   #-------------------------------------------------
