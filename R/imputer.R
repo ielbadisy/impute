@@ -36,7 +36,7 @@ imputer <- function(data, method = "naive") {
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "micesample", "complete")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "complete")
   
   stopifnot(is.data.frame(data))
   
@@ -124,45 +124,40 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   #-------------------------------------------------
-  # Multiple PMM
-  if (method == "mpmm") {
-    
-    impx <- mice::complete(mice::mice(dat, m = 10, method = "pmm", print = FALSE), action = 1:10)
-    return(impx) 
-  }
-  #-------------------------------------------------
   if (method == "famd") {
     
     impx <- missMDA::imputeFAMD(dat, ncp = 3)$completeObs
     return(impx) 
   }
   #-------------------------------------------------
+  # Multiple PMM
+  if (method == "mpmm") {
+    impx <- mice::mice(dat, m = 10, method = "pmm", print = FALSE)
+    impx <- mice::complete(impx, action = "all")
+    return(impx) 
+  }
+  #-------------------------------------------------
   if (method == "mice") {
-    
-    impx <- mice::complete(mice::mice(dat, m = 10, print = FALSE), action = 1:10)
+    impx <- mice::mice(dat, m = 10, print = FALSE)
+    impx <- mice::complete(impx, action = "all") 
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micecart") {
-    
-    impx <- mice::complete(mice::mice(dat, m = 10, meth = "cart", minbucket = 4, print = FALSE), action = 1:10)
+    impx <- mice::mice(dat, m = 10, meth = "cart", minbucket = 4, print = FALSE)
+    impx <- mice::complete(impx, action = "all")
     return(impx) 
   }
   #-------------------------------------------------
   if (method == "micerf") {
-    
-    impx <- mice::complete(mice::mice(dat, m = 10, meth = "rf", ntree = 5, print = FALSE), action = 1:10)
+    impx <- mice::mice(dat, m = 10, meth = "rf", ntree = 5, print = FALSE)
+    impx <- mice::complete(impx, action = "all")
     return(impx) 
   }
-  
-  
   #-------------------------------------------------
   if (method == "complete") {
-    
     impx <- dat[stats::complete.cases(dat), ]
     return(impx) 
   }
-  
-  
   ## Add more method here ! 
 }
