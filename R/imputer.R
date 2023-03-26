@@ -16,6 +16,7 @@
 #' \code{"spmm"}  \tab single predictive mean matching
 #' \code{"famd"}  \tab single imputation by factorial analysis for mixed-type
 #' \code{"missranger"}  \tab single imputation  by chained random forests
+#' \code{"misscforest"}  \tab single imputation  by ensemble conditional trees
 #' \code{"mice"} \tab multiple imputation by chained equations 
 #' \code{"mpmm"}  \tab multiple predictive mean matching
 #' \code{"micerf"}  \tab multiple Imputation by random forests
@@ -29,6 +30,7 @@
 #' @import mice
 #' @import missMDA
 #' @import superMICE
+#' @import missCforest
 #' @export 
 #' @importFrom stats median runif
 imputer <- function(data, method = "naive") {
@@ -36,7 +38,7 @@ imputer <- function(data, method = "naive") {
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "mpmm", "mice", "micerf", "micecart", "complete")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "misscforest", "mpmm", "mice", "micerf", "micecart", "complete")
   
   stopifnot(is.data.frame(data))
   
@@ -130,6 +132,14 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   #-------------------------------------------------
+  if (method == "misscforest") {
+    
+    impx <- missCforest::missCforest(dat)
+    return(impx) 
+  }
+  #-------------------------------------------------
+  
+  
   # Multiple PMM
   if (method == "mpmm") {
     impx <- mice::mice(dat, m = 10, method = "pmm", print = FALSE)

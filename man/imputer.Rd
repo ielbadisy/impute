@@ -24,6 +24,7 @@ A single complete data set imputed with the chosen method.
 \code{"spmm"}  \tab single predictive mean matching
 \code{"famd"}  \tab single imputation by factorial analysis for mixed-type
 \code{"missranger"}  \tab single imputation  by chained random forests
+\code{"misscforest"}  \tab single imputation  by ensemble conditional trees
 \code{"mice"} \tab multiple imputation by chained equations
 \code{"mpmm"}  \tab multiple predictive mean matching
 \code{"micerf"}  \tab multiple Imputation by random forests
