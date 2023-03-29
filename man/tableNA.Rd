@@ -7,11 +7,18 @@
 tableNA(data, order = TRUE, cumsum = FALSE)
 }
 \arguments{
-\item{cumsum}{}
+\item{data}{a dataframe object}
+
+\item{order}{sort the columns based on the proportion of NA}
+
+\item{cumsum}{compute and display the cumulative sum of NA across all columns}
 }
 \value{
 value
 }
 \description{
 Title
+}
+\examples{
+tableNA(introduceNA(iris, 0.2))
 }

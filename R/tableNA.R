@@ -1,13 +1,14 @@
 #' Title
 #'
-#' @param data
-#' @param order
-#' @param cumsum
+#' @param data a dataframe object 
+#' @param order sort the columns based on the proportion of NA
+#' @param cumsum compute and display the cumulative sum of NA across all columns
 #'
 #' @return value
 #' @export
 #'
 #' @examples
+#' tableNA(introduceNA(iris, 0.2))
 tableNA <- function(data, order = TRUE, cumsum = FALSE) {
   
   col_NA <- colSums(is.na(data))

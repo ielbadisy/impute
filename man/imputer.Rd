@@ -15,20 +15,19 @@ imputer(data_with_NA, "imputation_method")
 \value{
 A single complete data set imputed with the chosen method.
 \code{imputer} is a wrapper function that gives a direct use of the specified imputation method. All the available methods support mixed data type (continuous and categroical).
-\tabular{111}{
-\code{"naive"}  \tab imputation by mean for continuous and mode for categorical variables
-\code{"hotdeck"}  \tab single sequential hot deck imputation
-\code{"knn"}  \tab single imputation by k-nearest neighbor
-\code{"cart"}  \tab single imputation by classification and regression trees
-\code{"missforest"}  \tab single nonparametric imputation using random forest algorithm
-\code{"spmm"}  \tab single predictive mean matching
-\code{"famd"}  \tab single imputation by factorial analysis for mixed-type
-\code{"missranger"}  \tab single imputation  by chained random forests
-\code{"misscforest"}  \tab single imputation  by ensemble conditional trees
-\code{"mice"} \tab multiple imputation by chained equations
-\code{"mpmm"}  \tab multiple predictive mean matching
-\code{"micerf"}  \tab multiple Imputation by random forests
-\code{"micecart"} \tab multiple by imputation by classification and regression
+\code{"naive"} imputation by mean for continuous and mode for categorical variables
+\code{"hotdeck"}  single sequential hot deck imputation
+\code{"knn"}  single imputation by k-nearest neighbor
+\code{"cart"} single imputation by classification and regression trees
+\code{"missforest"}  single nonparametric imputation using random forest algorithm
+\code{"spmm"}  single predictive mean matching
+\code{"famd"}  single imputation by factorial analysis for mixed-type
+\code{"missranger"} single imputation  by chained random forests
+\code{"misscforest"} single imputation  by ensemble conditional trees
+\code{"mice"}  multiple imputation by chained equations
+\code{"mpmm"} multiple predictive mean matching
+\code{"micerf"}  multiple Imputation by random forests
+\code{"micecart"}  multiple by imputation by classification and regression #
 }
 \description{
 add description
@@ -38,7 +37,4 @@ A consistent wrapper for a set of imputation algorithms
 \examples{
 # add a simple example here to introduce the package!
 
-}
-\references{
-evaluate_coxest(c(5, 5, 0.6), c(7, 0.6, 0.3))
 }

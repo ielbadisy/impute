@@ -9,8 +9,10 @@
 #' @export
 #'
 #' @examples
+#' irisNA <- introduceNA(iris, 0.2)
+#' mean(is.na(iris))
 
-generateNA <- function(x, p = 0.2, seed = 123) {
+introduceNA <- function(x, p = 0.2, seed = 123) {
   
   stopifnot(p >= 0, p <= 1, is.atomic(x) || is.data.frame(x))
   

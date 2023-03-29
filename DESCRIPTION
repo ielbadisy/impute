@@ -7,14 +7,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "elbadisyimad@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Implementations of statistical and machine learning based algorithms for missing data imputation.  
+Description: Unified API to some implementations of statistical and machine learning based algorithms for missing data imputation.  
 License: CC0
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/ielbadisy/imputer
 BugReports: https://github.com/ielbadisy/imputer/issues
-Suggests: 
-    testthat (>= 2.1.0)
 Imports: stats, mice, simputation, VIM, missForest, missRanger, missCforest, missMDA, superMICE
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
