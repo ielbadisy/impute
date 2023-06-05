@@ -1,4 +1,4 @@
-#' Title
+#' Display a distribution table of missing values
 #'
 #' @param data a dataframe object 
 #' @param order sort the columns based on the proportion of NA

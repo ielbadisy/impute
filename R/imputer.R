@@ -27,7 +27,6 @@
 #' @import mice
 #' @import missMDA
 #' @import superMICE
-#' @import missCforest
 #' @export  
 #' @importFrom stats median runif
 imputer <- function(data, method = "naive") {
@@ -130,8 +129,9 @@ imputer <- function(data, method = "naive") {
   }
   #-------------------------------------------------
   if (method == "misscforest") {
-    
-    impx <- missCforest::missCforest(dat)
+    suppressWarnings({
+    impx <- missCforest::missCforest(dat, ntree = 10L)
+    })
     return(impx) 
   }
   #-------------------------------------------------

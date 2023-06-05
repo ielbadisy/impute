@@ -1,5 +1,4 @@
-
-#' Title
+#' Introduce missing values
 #'
 #' @param x dataset with NA
 #' @param p proportion of NA

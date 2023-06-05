@@ -2,7 +2,7 @@
 % Please edit documentation in R/introduceNA.R
 \name{introduceNA}
 \alias{introduceNA}
-\title{Title}
+\title{Introduce missing values}
 \usage{
 introduceNA(x, p = 0.2, seed = 123)
 }
@@ -17,7 +17,7 @@ introduceNA(x, p = 0.2, seed = 123)
 value
 }
 \description{
-Title
+Introduce missing values
 }
 \examples{
 irisNA <- introduceNA(iris, 0.2)

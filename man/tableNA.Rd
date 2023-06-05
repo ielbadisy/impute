@@ -2,7 +2,7 @@
 % Please edit documentation in R/tableNA.R
 \name{tableNA}
 \alias{tableNA}
-\title{Title}
+\title{Display a distribution table of missing values}
 \usage{
 tableNA(data, order = TRUE, cumsum = FALSE)
 }
@@ -17,7 +17,7 @@ tableNA(data, order = TRUE, cumsum = FALSE)
 value
 }
 \description{
-Title
+Display a distribution table of missing values
 }
 \examples{
 tableNA(introduceNA(iris, 0.2))
