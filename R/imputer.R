@@ -34,7 +34,7 @@ imputer <- function(data, method = "naive") {
   dat <- data
   var <- names(data)
   
-  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "misscforest", "mpmm", "mice", "micerf", "micecart", "complete")
+  m = c("naive", "hotdeck", "knn", "cart", "missforest", "spmm", "famd", "missranger", "misscforest", "mpmm", "mice", "micerf", "micecart", "mixgb", "complete")
   
   stopifnot(is.data.frame(data))
   
