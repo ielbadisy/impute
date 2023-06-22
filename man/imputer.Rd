@@ -27,7 +27,8 @@ A single complete data set imputed with the chosen method.
 \code{"mice"}  multiple imputation by chained equations
 \code{"mpmm"} multiple predictive mean matching
 \code{"micerf"}  multiple Imputation by random forests
-\code{"micecart"}  multiple by imputation by classification and regression #
+\code{"micecart"}  multiple  imputation by classification and regression #
+\code{"mixgb"}  multiple imputation by xgboost
 }
 \description{
 add description

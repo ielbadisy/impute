@@ -20,7 +20,9 @@
 #' \code{"mice"}  multiple imputation by chained equations 
 #' \code{"mpmm"} multiple predictive mean matching
 #' \code{"micerf"}  multiple Imputation by random forests
-#' \code{"micecart"}  multiple by imputation by classification and regression # 
+#' \code{"micecart"}  multiple  imputation by classification and regression # 
+#' \code{"mixgb"}  multiple imputation by xgboost
+#' 
 #' @import simputation
 #' @import missForest
 #' @import missRanger
@@ -77,7 +79,6 @@ imputer <- function(data, method = "naive") {
       do.call(cbind.data.frame, cols_imputed)
     }
     impx <- impute_naive(dat)
-    
     return(impx)
   }
   
@@ -163,7 +164,7 @@ imputer <- function(data, method = "naive") {
   }
   #-------------------------------------------------
   if (method == "mixgb") {
-    impx <- mixgb::mixgb(dat, m = 10)
+    impx <- mixgb::mixgb(dat, m = 10, maxit = 5)
     return(impx) 
   }
   #-------------------------------------------------
@@ -172,5 +173,4 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   ## Add more methods here ! 
-  
 }
