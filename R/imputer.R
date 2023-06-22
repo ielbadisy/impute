@@ -26,7 +26,7 @@
 #' @import missRanger
 #' @import mice
 #' @import missMDA
-#' @import superMICE
+#' @import mixgb
 #' @export  
 #' @importFrom stats median runif
 imputer <- function(data, method = "naive") {
@@ -162,9 +162,15 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   #-------------------------------------------------
+  if (method == "mixgb") {
+    impx <- mixgb::mixgb(dat, m = 10)
+    return(impx) 
+  }
+  #-------------------------------------------------
   if (method == "complete") {
     impx <- dat[stats::complete.cases(dat), ]
     return(impx) 
   }
   ## Add more methods here ! 
+  
 }

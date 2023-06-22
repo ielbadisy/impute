@@ -13,7 +13,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/ielbadisy/imputer
 BugReports: https://github.com/ielbadisy/imputer/issues
-Imports: stats, mice, simputation, VIM, missForest, missRanger, missCforest, missMDA, superMICE
+Imports: stats, mice, simputation, VIM, missForest, missRanger, missCforest, missMDA, mixgb
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Language: en-GB
