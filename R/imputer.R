@@ -29,6 +29,7 @@
 #' @import mice
 #' @import missMDA
 #' @import mixgb
+#' @import missCforest
 #' @export  
 #' @importFrom stats median runif
 imputer <- function(data, method = "naive") {
@@ -136,8 +137,6 @@ imputer <- function(data, method = "naive") {
     return(impx) 
   }
   #-------------------------------------------------
-  
-  
   # Multiple PMM
   if (method == "mpmm") {
     impx <- mice::mice(dat, m = 10, method = "pmm", print = FALSE)
